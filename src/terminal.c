@@ -61,16 +61,14 @@ int term_putint(int x){
 
 
 
-int term_puts(char *str)
-{
+int term_puts(char *str){
     for (; *str; ++str)
         if (term_putchar(*str))
             return -1;
     return 0;
 }
 
-int term_getchar(void)
-{
+int term_getchar(void){
     unsigned int stat;
 
     stat = rx_status(terminal);
@@ -92,19 +90,16 @@ int term_getchar(void)
     return stat >> CHAR_OFFSET;
 }
 
-void halt(void)
-{
+void halt(void){
     WAIT();
     *((volatile unsigned int *) MCTL_POWER) = 0x0FF;
     while (1) ;
 }
 
-static unsigned int tx_status(volatile termreg_t *tp)
-{
+static unsigned int tx_status(volatile termreg_t *tp){
     return ((tp->transm_status) & TERM_STATUS_MASK);
 }
 
-static unsigned int rx_status(volatile termreg_t *tp)
-{
+static unsigned int rx_status(volatile termreg_t *tp){
     return ((tp->recv_status) & TERM_STATUS_MASK);
 }

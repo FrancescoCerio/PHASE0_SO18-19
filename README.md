@@ -14,5 +14,8 @@ Verrano creati due file, kernel.core.umps e kernel.stab.umps, che sono i file da
 
 ...
 
+### Esempio di scrittura su un registro
+    *((volatile unsigned int *) MCTL_POWER) = 0x0FF;
+
 ## Licenza 
 GNU

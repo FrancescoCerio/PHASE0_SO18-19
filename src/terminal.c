@@ -60,6 +60,26 @@ int term_putint(int x){
 }
 
 
+int term_putunsignedint(unsigned int n){
+	char c[10];
+	int i=9;
+	if (n==0){
+		term_putchar('0');
+		return 0;
+	}
+	while(n>0){
+		unsigned int mod=n%10;
+		c[i]=(char)(mod+48);
+		n=n/10;
+		i--;
+	}
+	for (; i<10;i++){
+		term_putchar(c[i]);
+	}
+	return 0;
+}
+
+
 
 int term_puts(char *str){
     for (; *str; ++str)

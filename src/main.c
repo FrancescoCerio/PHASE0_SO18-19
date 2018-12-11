@@ -41,8 +41,7 @@ int main(int argc, char *argv[]){
 	readline(buf,LINE_BUF_SIZE);
 	term_puts("\nHo letto:");
 	term_puts(buf);
-    term_puts("\nProva stampa valore int: 123->)
-    
+    	term_puts("\nProva stampa valore int: 123->");
 	term_putint(123);
 	
 	

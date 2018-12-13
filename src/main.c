@@ -3,19 +3,13 @@
 #include "terminal.h"
 
 #define LINE_BUF_SIZE 64
+#define TOD 0x1000001c
+#define TIME_SCALE 0x10000024
+#define address(a) *((volatile unsigned int *)a) 
 
+typedef unsigned int u32;
 static char buf[LINE_BUF_SIZE];
 
-/* Funzione per leggere da terminale */
-static void readline(char *buf, unsigned int count)
-{
-    int c;
-
-    while (--count && (c = term_getchar()) != '\n')
-        *buf++ = c;
-
-    *buf = '\0';
-}
 
 #define IS_DIGIT(x) ('0' <= x && x <= '9')
 static unsigned int broken_strtou(const char *str)

@@ -14,9 +14,9 @@
 #define TERM_STATUS_MASK   0xFF
 
 volatile termreg_t *terminal = (termreg_t*) DEV_REG_ADDR(IL_TERMINAL, 0);
-
 static unsigned int tx_status(volatile termreg_t *tp);
 static unsigned int rx_status(volatile termreg_t *tp);
+
 
 int term_putchar(char c){
     unsigned int stat;
@@ -59,7 +59,6 @@ int term_putint(int x){
     return 0;
 }
 
-
 int term_putunsignedint(unsigned int n){
 	char c[10];
 	int i=9;
@@ -78,8 +77,6 @@ int term_putunsignedint(unsigned int n){
 	}
 	return 0;
 }
-
-
 
 int term_puts(char *str){
     for (; *str; ++str)
@@ -109,6 +106,17 @@ int term_getchar(void){
 
     return stat >> CHAR_OFFSET;
 }
+
+
+void readline(char *buf, unsigned int count){
+    int c;
+
+    while (--count && (c = term_getchar()) != '\n')
+        *buf++ = c;
+
+    *buf = '\0';
+}
+
 
 void halt(void){
     WAIT();

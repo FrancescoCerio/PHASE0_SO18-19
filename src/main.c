@@ -3,8 +3,8 @@
 #include "terminal.h"
 
 #define LINE_BUF_SIZE 64
-#define TOD 0x1000001c
-#define TIME_SCALE 0x10000024
+#define TOD 0x1000001c			/*  Numero di istruzioni svolte dalla CPU   */
+#define TIME_SCALE 0x10000024		/*  Numero di istruzioni svolta al secondo  */
 #define address(a) *((volatile unsigned int *)a) 
 
 typedef unsigned int u32;

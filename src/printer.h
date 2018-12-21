@@ -1,2 +1,2 @@
-int printer_putchar(char c);
-int printer_str(char *str);
+int print_putchar(char c);
+int print_str(char *str);

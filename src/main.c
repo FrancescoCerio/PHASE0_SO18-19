@@ -12,21 +12,22 @@ typedef unsigned int u32;
 static char buf[LINE_BUF_SIZE];
 
 int main(int argc, char *argv[]){
-	term_puts("TEST PER MACCHINA UMPS\n");
+    term_puts("TEST PER MACCHINA UMPS\n");
+    
+    /* Test I/O su terminale
+    term_puts("TEST LETTURA/SCRITTURA DA BUFFER\n");
+    term_puts("INPUT");
+    readline(buf,LINE_BUF_SIZE);
+    term_puts("\nHo letto:");
+    term_puts(buf);
+    term_puts("\nProva stampa valore int: 123->");
+    term_putint(123);
+	*/
+	
+    readline(buf,LINE_BUF_SIZE);
+    print_str(buf,LINE_BUF_SIZE);
 	
 	
-	term_puts("TEST LETTURA/SCRITTURA DA BUFFER\n");
-        term_puts("INPUT");
-	readline(buf,LINE_BUF_SIZE);
-	term_puts("\nHo letto:");
-	term_puts(buf);
-    	term_puts("\nProva stampa valore int: 123->");
-	term_putint(123);
-	
-	
-	
-	/* Stop uMPS*/
-	halt();
 
-    	return 0;
+    return 0;
 }

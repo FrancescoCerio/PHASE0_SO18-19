@@ -6,7 +6,7 @@ typedef unsigned int u32;
 
 static volatile dtpreg_t *printer = (dtpreg_t *) DEV_REG_ADDR(IL_PRINTER,0);
 
-int printer_putchar(char c){
+int print_putchar(char c){
 	u32 stat=printer->status; 
 	if (stat !=1)
 		return -1;
@@ -17,9 +17,9 @@ int printer_putchar(char c){
 	return 0;
 }
 
-int printer_str(char *str){
+int print_str(char *str){
 	for (; *str; ++str){
-		if (printer_putchar(*str))
+		if (print_putchar(*str))
 			return -1;
 	}
 	return 0;

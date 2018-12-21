@@ -8,8 +8,25 @@ static volatile dtpreg_t *printer = (dtpreg_t *) DEV_REG_ADDR(IL_PRINTER,0);
 
 int print_putchar(char c){
 	u32 stat=printer->status; 
-	if (stat !=1)
-		return -1;
+	
+	switch(stat){
+		case 0:
+			term_puts("Device not installed\n");
+			return -1;
+			break;
+		case 2:
+			term_puts("Illegal operation code");
+			return -1;
+			break;
+		case 3:
+			term_puts("Device busy");
+			return -1;
+			break;
+		case 4:
+			term_puts("Print error");
+			return -1;
+			break;
+	}
 
 	printer->data0=c;
 	printer->command=2;

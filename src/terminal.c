@@ -51,7 +51,7 @@ int term_putint(int x){
         c[i]=(char)(mod+48);
         x=x/10;
         i--;
-    }
+    }i++;
     for (; i<11;i++){
         term_putchar(c[i]);
     }
@@ -71,7 +71,7 @@ int term_putunsignedint(unsigned int n){
 		c[i]=(char)(mod+48);
 		n=n/10;
 		i--;
-	}
+	}i++;
 	for (; i<10;i++){
 		term_putchar(c[i]);
 	}

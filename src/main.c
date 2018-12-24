@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 	*/
 	
     readline(buf,LINE_BUF_SIZE);
-    print_str(buf,LINE_BUF_SIZE);
+    print_str(buf);
 	
 	
 

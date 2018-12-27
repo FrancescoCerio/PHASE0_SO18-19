@@ -23,7 +23,7 @@ int print_putchar(char c){
 			return -1;
 			break;
 		case 4:
-			term_puts("\nPRINT ERROE\n");
+			term_puts("\nPRINT ERROR\n");
 			return -1;
 			break;
 	}

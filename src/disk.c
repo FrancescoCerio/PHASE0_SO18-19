@@ -35,7 +35,7 @@ static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 /*disk->data0=0x20005000;*/
 
 
-int disk_write(u32 *ptr_current_ram){
+int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 
 	if(disk_status())
 		return-1;
@@ -43,7 +43,8 @@ int disk_write(u32 *ptr_current_ram){
 	/*disk->command = 0;*/
 
 	disk->data0 = ptr_current_ram;
-	disk->command = 0x04;
+	u32 cmd=((0x00000000+sect)<<8+(0x00000000+head)<<16)+4;
+	disk->command = cmd;
 	
 	disk_reset();
 	
@@ -52,7 +53,7 @@ int disk_write(u32 *ptr_current_ram){
 }
 
 
-int disk_read(u32 *ptr_current_ram){
+int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	
 	if(disk_status())
 		return -1;
@@ -62,7 +63,8 @@ int disk_read(u32 *ptr_current_ram){
 	/*u32 cmd = 0x00000003;*/
 	
 	disk->data0 = ptr_current_ram;
-	disk->command = 3;
+	u32 cmd=((0x00000000+sect)<<8+(0x00000000+head)<<16)+3;
+	disk->command = cmd;
 	term_putunsignedint(*ptr_ram);
 	
 	disk_reset();

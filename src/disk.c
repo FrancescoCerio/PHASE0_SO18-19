@@ -4,84 +4,31 @@
 #include "terminal.h"
 #include "disk.h"
 
-/* define per lo stato del disco */ 
-
-#define SD_READY 1
-#define SD_BUSY 3
-
-/* define per settare i comandi del disco */
-
-#define CMD_RESET 0x00
-#define CMD_ACK 0x01
-#define CMD_SEEKCYL 0x02
-#define CMD_READBLK 0x03
-#define CMD_WRITEBLK 0x04
-
-/* define per gli offset del COMMAND_FIELD */
-
-#define CMD_RW 8
-#define CMD_SECTNUM 8
-#define CMD_HEADNUM 8
-
 #define address(a) *((volatile unsigned int *)a)
-#define SIZE_IN 64
 
 typedef unsigned int u32;
-static unsigned int *ptr_ram = 0x20005000;
-static char in[SIZE_IN];
 
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 
-/*disk->data0=0x20005000;*/
+/* Puntatore alla struttura dati del disco utilizzato */
 
+static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
+
+/* Funzione per stampare a video le informazioni del disco */
 void disk_info(){
 	term_puts("\nMax Cylinder = ");
 	term_putunsignedint(disk->data1>>16);
 	term_puts("\nMax Head = ");
-	term_putunsignedint(disk->data1<<16>>24);
+	term_putunsignedint(disk-data1<<16>>24);
 	term_puts("\nMax Sector = ");
 	term_putunsignedint(disk->data1<<24>>24);
 }
-	
-	
-int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
-
-	if(disk_status())
-		return-1;
-			
-	/*disk->command = 0;*/
-
-	disk->data0 = ptr_current_ram;
-	u32 cmd=((0x00000000+sect)<<8+(0x00000000+head)<<16)+4;
-	disk->command = cmd;
-	
-	disk_reset();
-	
-	return 0;
-
-}
 
 
-int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
-	
-	if(disk_status())
-		return -1;
-	
-	/*disk->command = 0;*/
-	
-	/*u32 cmd = 0x00000003;*/
-	
-	disk->data0 = ptr_current_ram;
-	u32 cmd=((0x00000000+sect)<<8+(0x00000000+head)<<16)+3;
-	disk->command = cmd;
-	term_putunsignedint(*ptr_ram);
-	
-	disk_reset();
-
-	return 0;
-}
-
-u32 disk_status(){		
+/* Eseguo i controlli sullo stato del disco, se presenti viene mostrato sul terminale quale tipo di errore è rilevato */
+u32 disk_status(){
+	term_putchar('\n');
+		
 	switch(disk->status){
 		case 0:
 			term_puts("\nDEVICE NOT INSTALLED\n");
@@ -116,8 +63,47 @@ u32 disk_status(){
 	return 0;
 }
 
-void disk_chdata0(unsigned int chdata){
-	disk->data0 = chdata;
+/* Funzioni per la scrittura e la lettura sul disco */
+int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
+
+	if(disk_status())
+		return-1;
+	
+	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
+	while(disk->status == 3){			;
+		;
+	}
+	
+	/* Copio l'indirizzo RAM in cui scrivere i valori, dentro il registro data0 */
+	disk->data0 = ptr_current_ram;
+	
+	/* Imposto il registro command con il valore 4 per attivare la scrittura, con i relativi valori di headnum e sectnum del silindro corrente */
+	u32 cmd=((0x0+sect)<<8+(0x0+head)<<8)+0x04;
+	disk->command = cmd;
+	
+	return 0;
+
+}
+
+
+int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
+	
+	if(disk_status())
+		return -1;
+	
+	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
+	while(disk->status == 3){
+		;
+	}
+	
+	/* Copio l'indirizzo RAM in cui leggere i valori, dentro il registro data0 */
+	disk->data0 = ptr_current_ram;
+	
+	/* Imposto il registro command con il valore 3 per attivare la lettura, con i relativi valori di headnum e sectnum del cilindro corrente */
+	u32 cmd=((0x0+sect)<<8+(0x0+head)<<8)+0x03;
+	disk->command = cmd;
+	
+	return 0;
 }
 
 void disk_reset(){
@@ -128,6 +114,7 @@ void disk_ack(){
 	disk->command = 1;
 }
 
+/* Funzione per la ricerca del cilindro necessario alla lettura o alla scrittura all'interno del registro data1 */ 
 u32 disk_seek(u32 cylnum){
 	/* Eseguo un controllo sullo stato del disco prima dell'operazione di seek */
 	if (disk_status(disk)){

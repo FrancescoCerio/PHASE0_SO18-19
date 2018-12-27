@@ -11,19 +11,19 @@ int print_putchar(char c){
 	
 	switch(stat){
 		case 0:
-			term_puts("Device not installed\n");
+			term_puts("\nDEVICE NOT INSTALLED\n");
 			return -1;
 			break;
 		case 2:
-			term_puts("Illegal operation code");
+			term_puts("\nILLEGAL OPERATION CODE\n");
 			return -1;
 			break;
 		case 3:
-			term_puts("Device busy");
+			term_puts("\nDEVICE BUSY\n");
 			return -1;
 			break;
 		case 4:
-			term_puts("Print error");
+			term_puts("\nPRINT ERROE\n");
 			return -1;
 			break;
 	}

@@ -35,15 +35,12 @@ static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 /*disk->data0=0x20005000;*/
 
 void disk_info(){
-	u32 cyl=disk->data1>>16;
-	u32 heads=disk->data1<<16>>24;
-	u32 sectors=disk->data1<<24>>24;
 	term_puts("\nMax Cylinder = ");
-	term_putunsignedint(cyl);
+	term_putunsignedint(disk->data1>>16);
 	term_puts("\nMax Head = ");
-	term_putunsignedint(heads);
+	term_putunsignedint(disk->data1<<16>>24);
 	term_puts("\nMax Sector = ");
-	term_putunsignedint(sector);
+	term_putunsignedint(disk->data1<<24>>24);
 }
 	
 	
@@ -132,9 +129,12 @@ void disk_ack(){
 }
 
 u32 disk_seek(u32 cylnum){
+	/* Eseguo un controllo sullo stato del disco prima dell'operazione di seek */
 	if (disk_status(disk)){
 		return -1;
 	}
+	/* I bit da 8 a 23 del campo command nelle operazioni di seek corrispondono al numero del cilindro */
+	/* Il valore 2 corrisponde all'operazioni di seek */
 	u32 cmd=((0x00000000+cylnum)<<8)+2;
 	disk->command=cmd;
 	return 0;

@@ -34,7 +34,19 @@ static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 
 /*disk->data0=0x20005000;*/
 
-
+void disk_info(){
+	u32 cyl=disk->data1>>16;
+	u32 heads=disk->data1<<16>>24;
+	u32 sectors=disk->data1<<24>>24;
+	term_puts("\nMax Cylinder = ");
+	term_putunsignedint(cyl);
+	term_puts("\nMax Head = ");
+	term_putunsignedint(heads);
+	term_puts("\nMax Sector = ");
+	term_putunsignedint(sector);
+}
+	
+	
 int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 
 	if(disk_status())

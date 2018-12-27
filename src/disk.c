@@ -72,36 +72,34 @@ int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	return 0;
 }
 
-u32 disk_status(){
-	term_putchar('\n');
-		
+u32 disk_status(){		
 	switch(disk->status){
 		case 0:
-			term_puts("DEVICE NOT INSTALLED");
+			term_puts("\nDEVICE NOT INSTALLED\n");
 			return -1;
 			break;
 		case 2:
-			term_puts("ILLEGAL OPERATION CODE");
+			term_puts("\nILLEGAL OPERATION CODE\n");
 			return -1;
 			break;
 		case 3:
-			term_puts("DEVICE BUSY");
+			term_puts("\nDEVICE BUSY\n");
 			return -1;
 			break;
 		case 4:
-			term_puts("SEEK ERROR");
+			term_puts("\nSEEK ERROR\n");
 			return -1;
 			break;
 		case 5:
-			term_puts("READ ERROR");
+			term_puts("\nREAD ERROR\n");
 			return -1;
 			break;
 		case 6:
-			term_puts("WRITE ERROR");
+			term_puts("\nWRITE ERROR\n");
 			return -1;
 			break;
 		case 7:
-			term_puts("DMA TRANSFER ERROR");
+			term_puts("\nDMA TRANSFER ERROR\n");
 			return -1;
 			break;
 	}

@@ -6,6 +6,14 @@ typedef unsigned int u32;
 /* Puntatore alla struttura dati utilizzata dalla stampante */
 static volatile dtpreg_t *printer = (dtpreg_t *) DEV_REG_ADDR(IL_PRINTER,0);
 
+void printer_reset(){
+	printer->command=0;
+}
+
+void printer_ack(){
+	printer->command=1;
+}
+
 int print_putchar(char c){
 	/* Eseguo un controllo sullo stato della stampante prima dell'operazione di stampa */
 	switch(printer->status){
@@ -30,7 +38,7 @@ int print_putchar(char c){
 	/* Il numero 2 corrisponde all'operazioni di stampa del valore salvato in data0. */
 	printer->data0=c;
 	printer->command=2;
-	
+	printer_ack;
 	return 0;
 }
 

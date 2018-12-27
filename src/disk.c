@@ -8,6 +8,8 @@
 
 typedef unsigned int u32;
 
+static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
+
 /* Puntatore alla struttura dati del disco utilizzato */
 
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
@@ -22,37 +24,38 @@ void disk_info(){
 	term_putunsignedint(disk->data1<<24>>24);
 }
 
+
 /* Eseguo i controlli sullo stato del disco, se presenti viene mostrato sul terminale quale tipo di errore è rilevato */
 u32 disk_status(){
 	term_putchar('\n');
 		
 	switch(disk->status){
 		case 0:
-			term_puts("DEVICE NOT INSTALLED");
+			term_puts("\nDEVICE NOT INSTALLED\n");
 			return -1;
 			break;
 		case 2:
-			term_puts("ILLEGAL OPERATION CODE");
+			term_puts("\nILLEGAL OPERATION CODE\n");
 			return -1;
 			break;
 		case 3:
-			term_puts("DEVICE BUSY");
+			term_puts("\nDEVICE BUSY\n");
 			return -1;
 			break;
 		case 4:
-			term_puts("SEEK ERROR");
+			term_puts("\nSEEK ERROR\n");
 			return -1;
 			break;
 		case 5:
-			term_puts("READ ERROR");
+			term_puts("\nREAD ERROR\n");
 			return -1;
 			break;
 		case 6:
-			term_puts("WRITE ERROR");
+			term_puts("\nWRITE ERROR\n");
 			return -1;
 			break;
 		case 7:
-			term_puts("DMA TRANSFER ERROR");
+			term_puts("\nDMA TRANSFER ERROR\n");
 			return -1;
 			break;
 	}
@@ -113,9 +116,12 @@ void disk_ack(){
 
 /* Funzione per la ricerca del cilindro necessario alla lettura o alla scrittura all'interno del registro data1 */ 
 u32 disk_seek(u32 cylnum){
+	/* Eseguo un controllo sullo stato del disco prima dell'operazione di seek */
 	if (disk_status(disk)){
 		return -1;
 	}
+	/* I bit da 8 a 23 del campo command nelle operazioni di seek corrispondono al numero del cilindro */
+	/* Il valore 2 corrisponde all'operazioni di seek */
 	u32 cmd=((0x00000000+cylnum)<<8)+2;
 	disk->command=cmd;
 	return 0;

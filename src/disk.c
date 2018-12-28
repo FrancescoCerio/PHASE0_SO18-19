@@ -74,7 +74,7 @@ int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 4 per attivare la scrittura, con i relativi valori di headnum e sectnum del silindro corrente */
-	u32 cmd=((0x0+sect)<<8+(0x0+head)<<8)+0x04;
+	u32 cmd=((0x0+head)<<8+(0x0+sect)<<8)+0x04;
 	disk->command = cmd;
 	
 	return 0;
@@ -96,7 +96,7 @@ int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 3 per attivare la lettura, con i relativi valori di headnum e sectnum del cilindro corrente */
-	u32 cmd=((0x0+sect)<<8+(0x0+head)<<8)+0x03;
+	u32 cmd=((0x0+head)<<8+(0x0+sect)<<8)+0x03;
 	disk->command = cmd;
 
 	

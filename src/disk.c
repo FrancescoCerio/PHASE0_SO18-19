@@ -60,7 +60,7 @@ u32 disk_status(){
 }
 
 /* Funzioni per la scrittura e la lettura sul disco */
-int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
+u32 disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 
 	if(disk_status())
 		return-1;
@@ -82,7 +82,7 @@ int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 }
 
 
-int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
+u32 disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	
 	if(disk_status())
 		return -1;
@@ -119,11 +119,13 @@ u32 disk_seek(u32 cylnum){
 	}
 	/* Controllo che cylnum sia compreso tra 0 e il numero di cilindri del disco */
 	if ((cylnum > (disk->data1>>16)) || cylnum <0){
+		term_puts("\n Numero cilindro non valido\n");
 		return -1;
 	}
 	/* I bit da 8 a 23 del campo command nelle operazioni di seek corrispondono al numero del cilindro */
 	/* Il valore 2 corrisponde all'operazioni di seek */
 	u32 cmd=((0x00000000+cylnum)<<8)+0x2;
 	disk->command=cmd;
+	disk_ack();
 	return 0;
 }

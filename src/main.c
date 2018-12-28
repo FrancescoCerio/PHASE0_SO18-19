@@ -13,29 +13,38 @@ typedef unsigned int u32;
 static char buf[LINE_BUF_SIZE];
 
 int main(int argc, char *argv[]){
-    term_puts("TEST PER MACCHINA UMPS\n");
-    
-    /* Test I/O su terminale 
-    term_puts("TEST LETTURA/SCRITTURA DA BUFFER\n");
-    term_puts("INPUT");
-    readline(buf,LINE_BUF_SIZE);
-    term_puts("\nHo letto:");
-    term_puts(buf);
-    
-    term_puts("\nProva stampa valore int: 123->");
-    term_putint(123);
-
-    readline(buf,LINE_BUF_SIZE);
-    print_str(buf);
+	term_puts("PHASE0_SO18-19\nTest funzionamento di disco e stampante virtuali di uMPS\n");
+	char c[27]="abcdefghijklmnopqrstuvwxyz");
 	
-    readline(buf, LINE_BUF_SIZE);
+	disk_info();
+	if(disk_seek(0x0000009)){
+		term_puts("\nSEEK FALLITA\n");
+	}else{
+		term_puts("\n -Seek eseguita");
+	}
+	if(disk_write((u32 *)c,0x00000004,0x00000007)){
+		term_puts("\nSCRITTURA DISCO FALLITA\n");
+	}else{
+		term_puts("\n -Scrittura disco eseguita");
+	}
 	
-*/
-    disk_reset();
-	u32 *p = 0x20005000;
-	*p = 43;
-	disk_chdata0(0x20005000);
-	disk_write(*p);
-	disk_read(*p);
-    return 0;
+	int i=0;
+	for(;i<27;i++){
+		c[i]=0x0;
+	}
+	
+	if(disk_read((u32 *)c,0x00000004,0x00000007)){
+		term_puts("\nLETTURA DISCO FALLITA\n");
+	}else{
+		term_puts("\n -Lettura disco eseguita");
+	}
+	
+	if(printer_str(c)){
+		term_puts("\nSTAMPA FALLITA\n");
+	}else{
+		term_puts("\n -Stampa eseguita");
+	}
+	
+	
+	return 0;
 }

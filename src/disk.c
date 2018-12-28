@@ -117,6 +117,10 @@ u32 disk_seek(u32 cylnum){
 	if (disk_status(disk)){
 		return -1;
 	}
+	/* Controllo che cylnum sia compreso tra 0 e il numero di cilindri del disco */
+	if ((cylnum > (disk->data1>>16)) || cylnum <0){
+		return -1;
+	}
 	/* I bit da 8 a 23 del campo command nelle operazioni di seek corrispondono al numero del cilindro */
 	/* Il valore 2 corrisponde all'operazioni di seek */
 	u32 cmd=((0x00000000+cylnum)<<8)+0x2;

@@ -5,11 +5,7 @@
 #include "disk.h"
 
 #define address(a) *((volatile unsigned int *)a)
-
 typedef unsigned int u32;
-
-static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
-
 /* Puntatore alla struttura dati del disco utilizzato */
 
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
@@ -70,7 +66,7 @@ int disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 		return-1;
 	
 	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
-	while(disk->status == 3){			;
+	while(disk->status == 3){			
 		;
 	}
 	
@@ -102,6 +98,7 @@ int disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	/* Imposto il registro command con il valore 3 per attivare la lettura, con i relativi valori di headnum e sectnum del cilindro corrente */
 	u32 cmd=((0x0+sect)<<8+(0x0+head)<<8)+0x03;
 	disk->command = cmd;
+
 	
 	return 0;
 }
@@ -114,7 +111,7 @@ void disk_ack(){
 	disk->command = 1;
 }
 
-/* Funzione per la ricerca del cilindro necessario alla lettura o alla scrittura all'interno del registro data1 */ 
+/* Funzione di seek che permette di cambiare cilindro del disco  */ 
 u32 disk_seek(u32 cylnum){
 	/* Eseguo un controllo sullo stato del disco prima dell'operazione di seek */
 	if (disk_status(disk)){
@@ -122,7 +119,7 @@ u32 disk_seek(u32 cylnum){
 	}
 	/* I bit da 8 a 23 del campo command nelle operazioni di seek corrispondono al numero del cilindro */
 	/* Il valore 2 corrisponde all'operazioni di seek */
-	u32 cmd=((0x00000000+cylnum)<<8)+2;
+	u32 cmd=((0x00000000+cylnum)<<8)+0x2;
 	disk->command=cmd;
 	return 0;
 }

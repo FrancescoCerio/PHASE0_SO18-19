@@ -15,7 +15,7 @@ void disk_info(){
 	term_puts("\nMax Cylinder = ");
 	term_putunsignedint(disk->data1>>16);
 	term_puts("\nMax Head = ");
-	term_putunsignedint(disk-data1<<16>>24);
+	term_putunsignedint(disk->data1<<16>>24);
 	term_puts("\nMax Sector = ");
 	term_putunsignedint(disk->data1<<24>>24);
 }

@@ -10,7 +10,7 @@ Ci siamo occupati di sviluppare delle piccole librerie per entrambi i dispositiv
 ### Stampante
 ### Disco
 
-## Compilazione
+## Compilare per μMPS2
 Per compilare i file in src è necessario avere prima installato [μMPS2](https://github.com/tjonjic/umps).
 ```
 $ git clone https://github.com/filippobartolucci/PHASE0_SO18-19/

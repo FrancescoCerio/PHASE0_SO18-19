@@ -23,8 +23,6 @@ void disk_info(){
 
 /* Eseguo i controlli sullo stato del disco, se presenti viene mostrato sul terminale quale tipo di errore è rilevato */
 u32 disk_status(){
-	term_putchar('\n');
-		
 	switch(disk->status){
 		case 0:
 			term_puts("\nDEVICE NOT INSTALLED\n");

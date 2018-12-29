@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
 		term_puts("\n -Lettura disco eseguita");
 	}
 	
-	if(printer_str(c)){
+	if(print_str(c)){
 		term_puts("\nSTAMPA FALLITA\n");
 	}else{
 		term_puts("\n -Stampa eseguita");

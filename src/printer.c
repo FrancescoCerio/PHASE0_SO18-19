@@ -38,7 +38,7 @@ int print_putchar(char c){
 	/* Il numero 2 corrisponde all'operazioni di stampa del valore salvato in data0. */
 	printer->data0=c;
 	printer->command=2;
-	while ((printer->status == 3){
+	while ((printer->status == 3)){
         	;
 	}
 	       

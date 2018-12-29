@@ -66,7 +66,7 @@ u32 disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 4 per attivare la scrittura, con i relativi valori di headnum e sectnum del silindro corrente */
-	u32 cmd=(((head)<<8)+sect<<8)+4;
+	u32 cmd=(((0x00000000+head)<<8)+sect<<8)+4;
 	disk->command = cmd;
 	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
 	while(disk->status == 3){			
@@ -86,7 +86,7 @@ u32 disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 3 per attivare la lettura, con i relativi valori di headnum e sectnum del cilindro corrente */
-	u32 cmd=(((head)<<8)+sect<<8)+3;
+	u32 cmd=(((0x00000000+head)<<8)+sect<<8)+3;
 	disk->command = cmd;
 	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
 	while(disk->status == 3){

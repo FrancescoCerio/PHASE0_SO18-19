@@ -24,7 +24,7 @@ Per usare un dispositivo:
 ```
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 ```
-...
+...  
 Per aggiungere un dispositivo bisogna prima aggiungerlo e abilitarlo nella configurazione della propria macchina μMPS2
 μMPS2 supporta 8 istanze per ogni dispositivo.
 ### Disco

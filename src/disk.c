@@ -119,6 +119,9 @@ u32 disk_seek(u32 cylnum){
 	/* Il valore 2 corrisponde all'operazioni di seek */
 	u32 cmd=((0x00000000+cylnum)<<8)+2;
 	disk->command=cmd;
+	while(disk->status==3){
+		;
+	}
 	disk_ack();
 	return 0;
 }

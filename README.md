@@ -8,10 +8,19 @@ Per questa fase abbiamo scelto di creare un programma che utilizzi il disco e la
 Ci siamo occupati di sviluppare delle piccole librerie per entrambi i dispositivi, seguendo le specifiche che si possono trovare nel capitolo 5 del [manuale di μMPS2](http://www.cs.unibo.it/~renzo/so/princOfOperations.pdf).
 
 ### Dispositivi in μMPS2
-Ogni dispositivo ha un registro associato di 4 parole di memoria che permettono di interagire con l'hardware simulato attraverso la lettura e la scrittura di quest'ultime.
+Ogni dispositivo ha un registro associato di 4 parole di memoria che permettono di interagire con l'hardware simulato attraverso la lettura e la scrittura di quest'ultime.  
 
+Tutti i device condividono la stessa struttura dati.
+````
+typedef struct dtpreg {
+    unsigned int status;   /* Utilizzato per comunicare lo stato del dispositivo    */
+    unsigned int command;  /* Utilizzato per impartire comandi al device controller */
+    unsigned int data0;    /* Utilizzo varia per ogni dispositivo */
+    unsigned int data1;    /* Utilizzo varia per ogni dispositivo */
+} dtpreg_t;
+````
 
-
+Per usare un dispositivo:
 ```
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 ```

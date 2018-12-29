@@ -62,19 +62,17 @@ u32 disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 
 	if(disk_status())
 		return-1;
-	
-	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
-	while(disk->status == 3){			
-		;
-	}
-	
 	/* Copio l'indirizzo RAM in cui scrivere i valori, dentro il registro data0 */
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 4 per attivare la scrittura, con i relativi valori di headnum e sectnum del silindro corrente */
-	u32 cmd=((0x0+head)<<8+(0x0+sect)<<8)+0x04;
+	u32 cmd=(((head)<<8)+sect<<8)+4;
 	disk->command = cmd;
-	
+	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
+	while(disk->status == 3){			
+		;
+	}
+	disk_ack();
 	return 0;
 
 }
@@ -84,20 +82,17 @@ u32 disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	
 	if(disk_status())
 		return -1;
-	
-	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
-	while(disk->status == 3){
-		;
-	}
-	
 	/* Copio l'indirizzo RAM in cui leggere i valori, dentro il registro data0 */
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 3 per attivare la lettura, con i relativi valori di headnum e sectnum del cilindro corrente */
-	u32 cmd=((0x0+head)<<8+(0x0+sect)<<8)+0x03;
+	u32 cmd=(((head)<<8)+sect<<8)+3;
 	disk->command = cmd;
-
-	
+	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
+	while(disk->status == 3){
+		;
+	}
+	disk_ack();
 	return 0;
 }
 
@@ -122,7 +117,7 @@ u32 disk_seek(u32 cylnum){
 	}
 	/* I bit da 8 a 23 del campo command nelle operazioni di seek corrispondono al numero del cilindro */
 	/* Il valore 2 corrisponde all'operazioni di seek */
-	u32 cmd=((0x00000000+cylnum)<<8)+0x2;
+	u32 cmd=((0x00000000+cylnum)<<8)+2;
 	disk->command=cmd;
 	disk_ack();
 	return 0;

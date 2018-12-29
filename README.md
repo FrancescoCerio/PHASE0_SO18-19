@@ -24,6 +24,8 @@ Per usare un dispositivo:
 ```
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 ```
+
+μMPS2 supporta 8 istanze per ogni dispositivo.
 ### Disco
 ...
 ### Stampante

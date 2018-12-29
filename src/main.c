@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
 	}else{
 		term_puts("\n -Seek eseguita");
 	}
-	if(disk_write((u32 *)c,0x00000004,0x00000007)){
+	if(disk_write((u32 *)c,0x00000002,0x00000007)){
 		term_puts("\nSCRITTURA DISCO FALLITA\n");
 		return -1;
 	}else{
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
 		c[i]=0x0;
 	}
 	
-	if(disk_read((u32 *)c,0x00000004,0x00000007)){
+	if(disk_read((u32 *)c,0x00000002,0x00000007)){
 		term_puts("\nLETTURA DISCO FALLITA\n");
 		return -1;
 	}else{

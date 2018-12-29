@@ -25,12 +25,12 @@ Per usare un dispositivo:
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
 ```
 ...
-
+Per aggiungere un dispositivo bisogna prima aggiungerlo e abilitarlo nella configurazione della propria macchina μMPS2
 μMPS2 supporta 8 istanze per ogni dispositivo.
 ### Disco
+Per creare un disco si può utilizzare l'utility *umps2-mkdev*, fornita con μMPS2.
 ...
 ### Stampante
-...  
 Il campo data0 nelle stampante serve a settare il carattere che verrà poi trasmesso alla stampante al momento della stampa
 ...
 

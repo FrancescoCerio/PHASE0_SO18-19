@@ -1,14 +1,26 @@
 # PHASE0_SO18-19
 **Fase** 0 del progetto per il corso **Sistemi Operativi 18/19 UniBO**, gruppo *lso19az22*.  
 Obbiettivo di questa fase è realizzare un programma che mostri il funzionamento di un componente della macchina emulata μMPS2.
+...
 
 ## Progetto
-Per questa fase del progetto abbiamo scelto di creare un programma che mostra il funzionamento di disco e stampante di μMPS2.
-Ci siamo occupati di sviluppare delle piccole librerie per entrambi i dispositivi,seguendo le specifiche che si possono trovare nel capitolo 5 del [manuale di μMPS2](http://www.cs.unibo.it/~renzo/so/princOfOperations.pdf).
+Per questa fase abbiamo scelto di creare un programma che utilizzi il disco e la stampante di μMPS2.
+Ci siamo occupati di sviluppare delle piccole librerie per entrambi i dispositivi, seguendo le specifiche che si possono trovare nel capitolo 5 del [manuale di μMPS2](http://www.cs.unibo.it/~renzo/so/princOfOperations.pdf).
 
 ### Dispositivi in μMPS2
+Ogni dispositivo ha un registro associato di 4 parole di memoria che permettono di interagire con l'hardware simulato attraverso la lettura e la scrittura di quest'ultime.
+
+
+
+```
+static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
+```
 ### Disco
+...
 ### Stampante
+...
+Il campo data0 nelle stampante serve a settare il carattere che verrà poi trasmesso alla stampante al momento della stampa
+...
 
 ## Compilare per μMPS2
 Per compilare i file in src è necessario avere prima installato [μMPS2](https://github.com/tjonjic/umps).

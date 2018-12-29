@@ -42,7 +42,7 @@ int print_putchar(char c){
         	;
 	}
 	       
-	printer_ack;
+	printer_ack();
 	return 0;
 }
 

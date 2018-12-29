@@ -61,12 +61,16 @@ u32 disk_status(){
 u32 disk_write(u32 *ptr_current_ram, u32 head, u32 sect){
 
 	if(disk_status())
-		return-1;
-	/* Copio l'indirizzo RAM in cui scrivere i valori, dentro il registro data0 */
+		return -1;
+	
+    	if( head<0 || sect<0 || (head >(disk->data1<<16>>24)) || (sect >> (disk->data1<<24>>24)))
+        	return -1;
+
+   	 /* Copio l'indirizzo RAM in cui scrivere i valori, dentro il registro data0 */
 	disk->data0 = ptr_current_ram;
 	
-	/* Imposto il registro command con il valore 4 per attivare la scrittura, con i relativi valori di headnum e sectnum del silindro corrente */
-	u32 cmd=(((0x00000000+head)<<8)+sect<<8)+4;
+	/* Imposto il registro command con il valore 4 per attivare la scrittura, con i relativi valori di headnum e sectnum del cilindro corrente */
+	u32 cmd=((((0x00000000+head)<<8)+sect)<<8)+4;
 	disk->command = cmd;
 	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
 	while(disk->status == 3){			
@@ -82,11 +86,15 @@ u32 disk_read(u32 *ptr_current_ram, u32 head, u32 sect){
 	
 	if(disk_status())
 		return -1;
+
+    	if(head<0 || sect<0 || (head > (disk->data1<<16>>24)) || (sect >> (disk->data1<<24>>24)))
+       	 return -1;
+   
 	/* Copio l'indirizzo RAM in cui leggere i valori, dentro il registro data0 */
 	disk->data0 = ptr_current_ram;
 	
 	/* Imposto il registro command con il valore 3 per attivare la lettura, con i relativi valori di headnum e sectnum del cilindro corrente */
-	u32 cmd=(((0x00000000+head)<<8)+sect<<8)+3;
+	u32 cmd=((((0x00000000+head)<<8)+sect)<<8)+3;
 	disk->command = cmd;
 	/* Se lo stato del disco è settato su Busy, aspetto che torni operativo per evitare che si creino problemi */
 	while(disk->status == 3){

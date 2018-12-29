@@ -9,11 +9,11 @@
 #define address(a) *((volatile unsigned int *)a) 
 
 typedef unsigned int u32;
-static char buf[LINE_BUF_SIZE];
+
 
 int main(int argc, char *argv[]){
 	term_puts("PHASE0_SO18-19\nTest funzionamento di disco e stampante virtuali di uMPS\n");
-	char c[27]="abcdefghijklmnopqrstuvwxyz");
+	char c[27]="abcdefghijklmnopqrstuvwxyz";
 	
 	disk_info();
 	if(disk_seek(0x0000009)){

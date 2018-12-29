@@ -7,8 +7,8 @@ Per questa fase del progetto abbiamo scelto di creare un programma che mostra il
 Ci siamo occupati di sviluppare delle piccole librerie per entrambi i dispositivi,seguendo le specifiche che si possono trovare nel capitolo 5 del [manuale di μMPS2](http://www.cs.unibo.it/~renzo/so/princOfOperations.pdf).
 
 ### Dispositivi in μMPS2
-### Stampante
 ### Disco
+### Stampante
 
 ## Compilare per μMPS2
 Per compilare i file in src è necessario avere prima installato [μMPS2](https://github.com/tjonjic/umps).

@@ -19,19 +19,31 @@ typedef struct dtpreg {
     unsigned int data1;    /* Utilizzo varia per ogni dispositivo */
 } dtpreg_t;
 ````
-...
+
 Per usare un dispositivo:
 ```
-static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0));
+static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0)); /* Esempio di utilizzo di un disco */
 ```
-...  
-Per aggiungere un dispositivo bisogna prima aggiungerlo e abilitarlo nella configurazione della propria macchina μMPS2
-μMPS2 supporta 8 istanze per ogni dispositivo.
+Dove DEV_REG_ADDR(..) è una macro (definita in arch.h, libreria fornita con μMPS2) che restituisce l'indirizzo del registro del dispositivo.
+Per aggiungere un dispositivo è necessario abilitarlo nella configurazione della propria macchina μMPS2. Sono supportate massimo 8 istanze per ogni dispositivo.
 ### Disco
 Per creare un disco si può utilizzare l'utility *umps2-mkdev*, fornita con μMPS2.
 ...
 ### Stampante
-Il campo data0 nelle stampante serve a settare il carattere che verrà poi trasmesso alla stampante al momento della stampa
+La stampante di μMPS2 viene simulata scrivendo su un file di testo. Ogni carattere passato viene poi scritto sul file associato alla stampante nella configurazione della macchina virtuale.
+
+Il campo *status*, che può solo essere letto, indica lo stato della macchina.
+
+| Code| Status |  
+|:-:|:-:|
+|  0 |  Device not installed | 
+|  1 |  Device ready |  
+|  2 |  Illegal operation code|  
+|  3 |  Device busy|  
+|  4 |  Printe error |  
+
+Il campo **command**
+Il campo data0 serve a settare il carattere che verrà poi trasmesso alla stampante al momento della stampa
 ...
 
 ## Compilare per μMPS2

@@ -82,7 +82,7 @@ Per le operazioni di lettura i procedimenti sono uguali alle operazioni di scrit
 ### Stampante
 La stampante di μMPS2 viene simulata scrivendo su un file di testo. Ogni carattere passato viene poi scritto sul file associato alla stampante nella configurazione della macchina virtuale.
 
-Il campo status, che può solo essere letto, indica lo stato della macchina.
+Il campo **STATUS**, che può solo essere letto, indica lo stato della macchina.
 
 | Code| Status |  
 |:-:|:-:|
@@ -92,7 +92,7 @@ Il campo status, che può solo essere letto, indica lo stato della macchina.
 |  3 |  Device busy|  
 |  4 |  Print error |  
 
-Il campo command indica l'operazione che il controller della stampante deve eseguire.
+Il campo **COMMAND** indica l'operazione che il controller della stampante deve eseguire.
 
 | Code| Command |  
 |:-:|:-:|
@@ -100,9 +100,10 @@ Il campo command indica l'operazione che il controller della stampante deve eseg
 |  1 |  Ack |  
 |  2 |  Print char|  
  
-Il campo data0 serve a settare il carattere che verrà poi trasmesso alla stampante al momento della stampa
+Il campo **DATA0** serve a settare il carattere che verrà poi trasmesso alla stampante al momento della stampa.
+**DATA1** non viene utilizzato dalla stampante.
 
-La funzione *print_putchar(char c)* salva in data0 il char c e dà alla stampante il comando di stampa. Prima di terminare si assicura che la stampante non sia più occupata dal processo di stampa e manda un ack al termine.
+La funzione *print_putchar(char c)* salva in **DATA0** il char c e dà alla stampante il comando di stampa. Prima di terminare si assicura che la stampante non sia più occupata dal processo di stampa e manda un ack al termine.
 
 Per poter stampare più caratteri insieme si può utilizzare la funzione *print_str(char \*str)* che chiama *print_putchar* per ogni carattere della stringa.
 
@@ -116,7 +117,7 @@ $ make -f Makefile-templ
 Verrano creati due file, kernel.core.umps e kernel.stab.umps, che sono i file da usare per la configurazione della macchina MIPS in μMPS2
 
 ## Sviluppatori
-...
+
 
 ## Licenza 
 GNU

@@ -13,7 +13,7 @@ typedef unsigned int u32;
 
 int main(int argc, char *argv[]){
 	term_puts("PHASE0_SO18-19\nTest funzionamento di disco e stampante virtuali di uMPS\n");
-	term_puts("Scrittura dell'alfabeto su disco, lettura e copia in memoria e  stampa \n\n");
+	term_puts("Scrittura di una stringa su disco, lettura e copia in memoria e  stampa \n\n");
 	char c[27]="abcdefghijklmnopqrstuvwxyz";
 	
 	disk_info();

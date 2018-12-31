@@ -117,7 +117,9 @@ $ make -f Makefile-templ
 Verrano creati due file, kernel.core.umps e kernel.stab.umps, che sono i file da usare per la configurazione della macchina MIPS in μMPS2
 
 ## Sviluppatori
-
+Filippo Bartolucci 
+Francesco Cerio 
+Tonino Petrulli
 
 ## Licenza 
 GNU

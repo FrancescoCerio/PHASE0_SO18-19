@@ -1,5 +1,5 @@
 # PHASE0_SO18-19
-**Fase** 0 del progetto per il corso **Sistemi Operativi 18/19 UniBO**, gruppo *lso19az22*.  
+**Fase 0** del progetto per il corso **Sistemi Operativi 18/19 UniBO**, gruppo *lso19az22*.  
 Obbiettivo di questa fase è realizzare un programma che mostri il funzionamento di un componente della macchina emulata μMPS2.
 
 
@@ -24,7 +24,7 @@ Per usare un dispositivo:
 ```
 static volatile dtpreg_t *disk = (dtpreg_t *)(DEV_REG_ADDR(IL_DISK, 0)); /* Esempio di utilizzo di un disco */
 ```
-Dove DEV_REG_ADDR(..) è una macro (definita in arch.h, libreria fornita con μMPS2) che restituisce l'indirizzo del registro del dispositivo.
+Dove DEV_REG_ADDR(..) è una macro (definita in arch.h, libreria fornita con μMPS2) che restituisce l'indirizzo del registro del dispositivo in base al tipo e al numero del dispositivo richiesto.
 Per aggiungere un dispositivo è necessario prima abilitarlo nella configurazione della propria macchina μMPS2. Sono supportate massimo 8 istanze per ogni dispositivo.
 ### Disco
 Per creare un disco si può utilizzare l'utility *umps2-mkdev*, fornita con μMPS2.
@@ -118,6 +118,9 @@ Verrano creati due file, kernel.core.umps e kernel.stab.umps, che sono i file da
 
 ## Sviluppatori
 
+* Filippo Bartolucci - filippo.bartolucci2@studio.unibo.it
+* Francesco Cerio - francesco.cerio@studio.unibo.it
+* Tonino Petrulli - tonino.petrulli@studio.unibo.it
 
 ## Licenza 
 GNU

@@ -2,32 +2,53 @@
 #include "umps/arch.h"
 #include "terminal.h"
 #include "printer.h"
+#include "disk.h"
 
-#define LINE_BUF_SIZE 64
 #define TOD 0x1000001c			        /*  Numero di istruzioni svolte dalla CPU   */
 #define TIME_SCALE 0x10000024		    /*  Numero di istruzioni svolta al secondo  */
 #define address(a) *((volatile unsigned int *)a) 
 
 typedef unsigned int u32;
-static char buf[LINE_BUF_SIZE];
+
 
 int main(int argc, char *argv[]){
-    term_puts("TEST PER MACCHINA UMPS\n");
-    
-    /* Test I/O su terminale
-    term_puts("TEST LETTURA/SCRITTURA DA BUFFER\n");
-    term_puts("INPUT");
-    readline(buf,LINE_BUF_SIZE);
-    term_puts("\nHo letto:");
-    term_puts(buf);
-    term_puts("\nProva stampa valore int: 123->");
-    term_putint(123);
-	*/
+	term_puts("PHASE0_SO18-19\nTest funzionamento di disco e stampante virtuali di uMPS\n");
+	term_puts("Scrittura dell'alfabeto su disco, lettura e copia in memoria e  stampa \n\n");
+	char c[27]="abcdefghijklmnopqrstuvwxyz";
 	
-    readline(buf,LINE_BUF_SIZE);
-    print_str(buf);
+	disk_info();
+	if(disk_seek(0x0000009)){
+		term_puts("\nSEEK FALLITA\n");
+		return -1;
+	}else{
+		term_puts("\n -Seek eseguita");
+	}
+	if(disk_write((u32 *)c,0x00000001,0x00000007)){
+		term_puts("\nSCRITTURA DISCO FALLITA\n");
+		return -1;
+	}else{
+		term_puts("\n -Scrittura disco eseguita");
+	}
+	
+	int i=0;
+	for(;i<27;i++){
+		c[i]=0x0;
+	}
+	
+	if(disk_read((u32 *)c,0x00000001,0x00000007)){
+		term_puts("\nLETTURA DISCO FALLITA\n");
+		return -1;
+	}else{
+		term_puts("\n -Lettura disco eseguita");
+	}
+	
+	if(print_str(c)){
+		term_puts("\nSTAMPA FALLITA\n");
+		return -1;
+	}else{
+		term_puts("\n -Stampa eseguita");
+	}
 	
 	
-
-    return 0;
+	return 0;
 }
